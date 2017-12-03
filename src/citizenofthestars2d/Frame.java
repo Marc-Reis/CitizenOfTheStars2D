@@ -5,60 +5,107 @@
  */
 package citizenofthestars2d;
 
-import java.awt.Color;
+import java.awt.DisplayMode;
 import java.awt.Graphics;
 import java.awt.HeadlessException;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
+
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 
 /**
- *
+ * Wir erweitern die JFrame (Fenster) Klasse on Java nach unseren Wünschen.
  * @author reisma
  */
 public class Frame extends JFrame {
 
-    private Screen screen;
+    private Screen screen; // Unsere "mal fläche" ist eingetlich en JLabel gewesen...
 
-    private boolean key_up = false;
+    private boolean key_up = false;     // Wahrheitswerte um zu wissen ob "hoch" gedrückt wurde
     private boolean key_down = false;
     private boolean key_left = false;
     private boolean key_right = false;
+    
+    private final Spieler spieler;
+    private DisplayMode mode;
+    private final BackgroundImage bgi;
+    
 
-    private float player_posx = 300;
-    private float player_posy = 400;
-    private int player_size = 50;
 
-    public Frame() throws HeadlessException {
+    public Frame(Spieler derSpieler, BackgroundImage bgi, DisplayMode mode) throws HeadlessException { // Konstruktur Methode , die einen Fehler werfen kann!
+                        // Headless nennt man ein Programm wenn es keine GUI hat, so wie DOS (also nur Eingeabeaufforderung)
+        super("Citizen of the stars 2D");   // Wir Übergeben der JFrame klasse Ihren Text für die titelleiste
+        this.mode = null;
+        
+        this.spieler = derSpieler;
+        this.bgi = bgi;
+        
+        screen = new Screen();              // Wir erstellen nach dem Bauplan einen neune Screen also ein Objekt der Klasse
+        screen.setBounds(0, 0, mode.getWidth(), mode.getHeight());  // Wir geben die Größe an, sollte zu den Angaben in der main passen.
 
-        super("Citizen of the stars 2D");
-
-        screen = new Screen();
-        screen.setBounds(0, 0, 1024, 800);
-
-        add(screen);
-        addKeyListener(new KeyHandler());
+        add(screen);                        // wir rufen eine Methode des JFrames auf und bitten darum unseren Screen ins fenster zu legen
+        addKeyListener(new KeyHandler());   // und auch noch einen Tastatur Horcher hinzuzufügen.)
 
     }
-
+    
+    /**
+     * Wird aufgerufen wenn das Fenster neu gezeichnet wird.
+     * Veranlasst das Sich das JLabel auch neu Zeichnet - also unser Screen Objekt
+     */
     public void repaintScreen() {
         getScreen().repaint();
     }
 
+    /**
+     * Eine "inner Class" 
+     * macht man nicht oft, aber man kann eine Klasse in einer Klasse definieren
+     * so kann man nur für den Frame gewisse Strukturen vorgeben.
+     * Das meiste nehmen wir von der JLabel Klasse der Java leute und fügen nur hinzu
+     * das wir ein Rechteck malen wollen.
+     */
     private class Screen extends JLabel {
 
         protected void paintComponent(Graphics g) {
-            super.paintComponent(g);
+            super.paintComponent(g); // Die Elternklasse JLabel soll sich erst mal malen
 
-            g.setColor(Color.RED);
-            g.fillRect((int) getPlayer_posx(), (int) getPlayer_posy(), getPlayer_size(), getPlayer_size());
+            // dann fügen wir unser Rechteck hinzu.
+            
+           
+            g.drawImage(bgi.getBufferedImage(), bgi.getX(),  0, null);
+            g.drawImage(bgi.getBufferedImage(), 
+                    bgi.getX() + bgi.getBufferedImage().getWidth(), 
+                    0, null);
+            
+            g.drawImage(bgi.getBufferedImage(), bgi.getX(),  bgi.getBufferedImage().getHeight(), null);
+            g.drawImage(bgi.getBufferedImage(), 
+                    bgi.getX() + bgi.getBufferedImage().getWidth(), 
+                    bgi.getBufferedImage().getHeight(), null);
+            
+            g.setColor(spieler.getColor());
+             g.fillRect( (int) spieler.getBoundingBox().x, 
+                        (int) spieler.getBoundingBox().y, 
+                        (int) spieler.getBoundingBox().height, 
+                        (int) spieler.getBoundingBox().width);
+            
         }
 
     }
 
+    /**
+     * Inner Class Teil 2 - unser eigener Tastatur Handhaber,
+     * der die Vorgaben erfüllt die ein Interface KeyListener haben muss.
+     * Das ist sowas wie eine Vorgabe Liste an Methoden die man haben muss,
+     * allerdings muss das,  was in den Methoden drin passieren soll dann selbst programmieren.
+     */
     private class KeyHandler implements KeyListener {
 
+        /**
+         * Wir überschreiben was beim drücken einer Taste passiert.
+         * hat den nachteil das ohne unser zutun sonst nix mehr passiert
+         * z.B. ESC oder ähnliches.
+         * @param e 
+         */
         @Override
         public void keyPressed(KeyEvent e) {
             if (e.getKeyCode() == KeyEvent.VK_S) {
@@ -73,8 +120,14 @@ public class Frame extends JFrame {
             if (e.getKeyCode() == KeyEvent.VK_A) {
                 setKey_left(true);
             }
+            if(e.getKeyCode() == KeyEvent.VK_ESCAPE){
+                System.exit(0);
+            }
         }
-
+        /**
+         * Gleiches spiel nur für das Loslassen einer Taste
+         * @param e 
+         */
         @Override
         public void keyReleased(KeyEvent e) {
             if (e.getKeyCode() == KeyEvent.VK_S) {
@@ -91,6 +144,11 @@ public class Frame extends JFrame {
             }
         }
 
+        /** Brauchen wir nicht, müssen ihn aber trotzdem haben
+         *  Deswegen rufen wir einfache die keyPressed der Eltnerklasse auf
+         * die solls richten!
+         * @param e 
+         */
         @Override
         public void keyTyped(KeyEvent e) {
             keyPressed(e);
@@ -98,6 +156,11 @@ public class Frame extends JFrame {
         }
     }
 
+    
+    // Jetzt kommen jede menge GET und SET Methoden - ein umweg um Werte einer Variable
+    // zu erhalten oder zu setzen.
+    // Der Umweg macht deswegen sinn, weil wir später mehr kontrolle darüber haben was passiert
+    // z.B. das die Auflösung nicht negativ ist oder größer als 8K ...
     /**
      * @return the screen
      */
@@ -168,46 +231,10 @@ public class Frame extends JFrame {
         this.key_right = key_right;
     }
 
-    /**
-     * @return the player_posx
-     */
-    public float getPlayer_posx() {
-        return player_posx;
+    public void setDisplayMode(DisplayMode mode){
+        this.mode = mode;
     }
-
-    /**
-     * @param player_posx the player_posx to set
-     */
-    public void setPlayer_posx(float player_posx) {
-        this.player_posx = player_posx;
+    public DisplayMode getDisplayMode(){
+        return mode;
     }
-
-    /**
-     * @return the player_posy
-     */
-    public float getPlayer_posy() {
-        return player_posy;
-    }
-
-    /**
-     * @param player_posy the player_posy to set
-     */
-    public void setPlayer_posy(float player_posy) {
-        this.player_posy = player_posy;
-    }
-
-    /**
-     * @return the player_size
-     */
-    public int getPlayer_size() {
-        return player_size;
-    }
-
-    /**
-     * @param player_size the player_size to set
-     */
-    public void setPlayer_size(int player_size) {
-        this.player_size = player_size;
-    }
-
 }
