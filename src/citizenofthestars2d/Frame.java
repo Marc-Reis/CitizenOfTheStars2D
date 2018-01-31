@@ -90,10 +90,11 @@ public class Frame extends JFrame {
            
         
                 g.setColor(sp.getColor());
-                 g.fillRect( (int) sp.getBoundingBox().x, 
-                            (int) sp.getBoundingBox().y, 
-                            (int) sp.getBoundingBox().height, 
-                            (int) sp.getBoundingBox().width);
+                g.drawImage(sp.getLook(), sp.getBoundingBox().x, sp.getBoundingBox().y, null);
+//                 g.fillRect( (int) sp.getBoundingBox().x, 
+//                            (int) sp.getBoundingBox().y, 
+//                            (int) sp.getBoundingBox().height, 
+//                            (int) sp.getBoundingBox().width);
 
                  g.drawString(sp.getPlayerName(),
                          sp.getBoundingBox().x, 

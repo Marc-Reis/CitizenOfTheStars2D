@@ -7,6 +7,8 @@ package citizenofthestars2d;
 
 import java.awt.Color;
 import java.awt.Rectangle;
+import java.awt.image.BufferedImage;
+import javax.imageio.ImageIO;
 import javax.swing.JFrame;
 import javax.swing.JOptionPane;
 
@@ -28,10 +30,17 @@ public class Spieler {
     private Color color = Color.RED;
     
     static int counter;
+    
+    
+    private BufferedImage look;
 
     
-    public Spieler ( int pos_x, int pos_y, int size, int worldsize_x, int worldsize_y ){
-       boundingbox = new Rectangle(pos_x,pos_y, size, size);
+    public Spieler ( int pos_x, int pos_y, int size, int worldsize_x, int worldsize_y )  {
+        try{
+            look = ImageIO.read( getClass().getClassLoader().getResourceAsStream("gfx/raumschiffchen.png") );
+        }catch(Exception e){e.printStackTrace();}
+        
+        boundingbox = new Rectangle(pos_x,pos_y, size, size);
        
        f_posx = pos_x;
        f_posy = pos_y;
@@ -104,4 +113,8 @@ public class Spieler {
         return name;
     }
   
+    public BufferedImage getLook(){
+        return look;
+    }
+    
 }
