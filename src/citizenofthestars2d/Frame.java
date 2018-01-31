@@ -10,6 +10,7 @@ import java.awt.Graphics;
 import java.awt.HeadlessException;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
+import java.util.ArrayList;
 
 import javax.swing.JFrame;
 import javax.swing.JLabel;
@@ -27,18 +28,22 @@ public class Frame extends JFrame {
     private boolean key_left = false;
     private boolean key_right = false;
     
-    private final Spieler spieler;
+    private final ArrayList<Spieler> spieler;
     private DisplayMode mode;
     private final BackgroundImage bgi;
     
 
 
-    public Frame(Spieler derSpieler, BackgroundImage bgi, DisplayMode mode) throws HeadlessException { // Konstruktur Methode , die einen Fehler werfen kann!
+    public Frame(ArrayList<Spieler> dieSpieler, BackgroundImage bgi, DisplayMode mode) throws HeadlessException { // Konstruktur Methode , die einen Fehler werfen kann!
                         // Headless nennt man ein Programm wenn es keine GUI hat, so wie DOS (also nur Eingeabeaufforderung)
         super("Citizen of the stars 2D");   // Wir Übergeben der JFrame klasse Ihren Text für die titelleiste
         this.mode = null;
         
-        this.spieler = derSpieler;
+        this.spieler = dieSpieler;
+        for(Spieler sp : spieler){
+           sp.setPlayerName(this); 
+        }
+        
         this.bgi = bgi;
         
         screen = new Screen();              // Wir erstellen nach dem Bauplan einen neune Screen also ein Objekt der Klasse
@@ -81,12 +86,19 @@ public class Frame extends JFrame {
             g.drawImage(bgi.getBufferedImage(), 
                     bgi.getX() + bgi.getBufferedImage().getWidth(), 
                     bgi.getBufferedImage().getHeight(), null);
-            
-            g.setColor(spieler.getColor());
-             g.fillRect( (int) spieler.getBoundingBox().x, 
-                        (int) spieler.getBoundingBox().y, 
-                        (int) spieler.getBoundingBox().height, 
-                        (int) spieler.getBoundingBox().width);
+            for(Spieler sp : spieler){
+           
+        
+                g.setColor(sp.getColor());
+                 g.fillRect( (int) sp.getBoundingBox().x, 
+                            (int) sp.getBoundingBox().y, 
+                            (int) sp.getBoundingBox().height, 
+                            (int) sp.getBoundingBox().width);
+
+                 g.drawString(sp.getPlayerName(),
+                         sp.getBoundingBox().x, 
+                         sp.getBoundingBox().y);
+            }
             
         }
 

@@ -7,7 +7,7 @@ package citizenofthestars2d;
 import java.awt.DisplayMode;
 import java.awt.GraphicsDevice;
 import java.awt.GraphicsEnvironment;
-import java.awt.image.BufferedImage;
+import java.util.ArrayList;
 import javax.swing.JFrame;
 
 /**
@@ -28,13 +28,21 @@ public class CitizenOfTheStars2D {
         int speed = 500;
         
         DisplayMode m = new DisplayMode(800, 600, 32, 60);
+        // Der Rahmen für die Fläche in der unser Spiel stattfindet
+        
+        ArrayList<Spieler> spielerListe = new ArrayList();
         
         Spieler spieler1 = new Spieler(300, 300, 50, m.getWidth(), m.getHeight());
+        spielerListe.add(spieler1);
+        
+        Spieler spieler2 = new Spieler(300, 300, 50, m.getWidth(), m.getHeight());
+        spielerListe.add(spieler2);
+        
         BackgroundImage bgi;
         bgi = new BackgroundImage(speed);
         
-        // Der Rahmen für die Fläche in der unser Spiel stattfindet
-        Frame f = new Frame(spieler1, bgi, m );
+        Frame f = new Frame(spielerListe, bgi, m );
+        
         
         ShowDisplayModes sdm = new ShowDisplayModes(f);
         
@@ -70,9 +78,9 @@ public class CitizenOfTheStars2D {
         if(m != null){
                 System.out.println("Somethings there" + m);
                 
-                //Für den Vollbildmodus
-                device.setFullScreenWindow(f);
-                device.setDisplayMode(m);
+                //Für den Vollbildmodus 
+           //    device.setFullScreenWindow(f);
+            //    device.setDisplayMode(m);
             }
         long timeLastFrame = System.currentTimeMillis();
         

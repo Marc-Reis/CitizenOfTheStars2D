@@ -5,6 +5,7 @@
  */
 package citizenofthestars2d;
 
+import java.awt.Image;
 import java.awt.image.BufferedImage;
 import java.io.InputStream;
 import javax.imageio.ImageIO;
@@ -20,6 +21,7 @@ public class BackgroundImage {
     private String url;
     
     private BufferedImage bgImage;
+    private Image i;
     
     
     public BackgroundImage(float f_scrollSpeed){
@@ -55,6 +57,11 @@ public class BackgroundImage {
     
     public BufferedImage getBufferedImage(){
         return bgImage;
+    }
+    
+    public Image  getScaledImage(){
+        i = bgImage.getScaledInstance(3440, -1, Image.SCALE_AREA_AVERAGING);
+        return i;
     }
     
 }

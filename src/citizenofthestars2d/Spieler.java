@@ -7,6 +7,8 @@ package citizenofthestars2d;
 
 import java.awt.Color;
 import java.awt.Rectangle;
+import javax.swing.JFrame;
+import javax.swing.JOptionPane;
 
 /**
  *
@@ -17,12 +19,15 @@ public class Spieler {
     private Rectangle  boundingbox;
     private float f_posx;
     private float f_posy;
+    private String name;
     
     int worldsize_x;
     int worldsize_y ;
             
     private int speed = 300;
     private Color color = Color.RED;
+    
+    static int counter;
 
     
     public Spieler ( int pos_x, int pos_y, int size, int worldsize_x, int worldsize_y ){
@@ -33,6 +38,10 @@ public class Spieler {
        
        this.worldsize_x = worldsize_x;
        this.worldsize_y = worldsize_y;
+       
+       counter++;
+       name = "UnknownPlayer_"+counter;
+       
     }
     
     public void update(float timeSinceLastFrame, boolean up, boolean down, boolean left, boolean right){
@@ -85,6 +94,14 @@ public class Spieler {
      */
     public void setColor(Color color) {
         this.color = color;
+    }
+    
+    public void setPlayerName(JFrame frame){
+         name = JOptionPane.showInputDialog(frame, "What's your name?");
+    }
+    
+    public String getPlayerName(){
+        return name;
     }
   
 }
