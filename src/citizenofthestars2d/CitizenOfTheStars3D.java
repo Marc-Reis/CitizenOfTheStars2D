@@ -10,5 +10,5 @@ package citizenofthestars2d;
  * @author reisma
  */
 public class CitizenOfTheStars3D {
-    
+
 }

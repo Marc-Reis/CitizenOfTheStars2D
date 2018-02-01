@@ -13,22 +13,20 @@ import java.awt.GraphicsEnvironment;
  * @author reisma
  */
 public class GetResolutions {
-    
-    public static void main (String args[]){
-         DisplayMode [] possibleModes = null;
- 
-       
-        GraphicsEnvironment environment = 
-                GraphicsEnvironment.getLocalGraphicsEnvironment();
-        
+
+    public static void main(String args[]) {
+        DisplayMode[] possibleModes = null;
+
+        GraphicsEnvironment environment
+                = GraphicsEnvironment.getLocalGraphicsEnvironment();
+
         possibleModes = environment.getDefaultScreenDevice().getDisplayModes();
-       
-        for (DisplayMode mode : possibleModes){
+
+        for (DisplayMode mode : possibleModes) {
             System.out.println(
-                    mode.getWidth()+ " x; "+mode.getHeight()+" y; "
-                            +mode.getBitDepth() +" Bit; "+ mode.getRefreshRate()+" Hz");
+                    mode.getWidth() + " x; " + mode.getHeight() + " y; "
+                    + mode.getBitDepth() + " Bit; " + mode.getRefreshRate() + " Hz");
         }
     }
-    
-    
+
 }

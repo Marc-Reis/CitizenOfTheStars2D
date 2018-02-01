@@ -14,10 +14,10 @@ import javax.swing.JFrame;
  * @author reisma
  */
 public class ShowDisplayModes extends javax.swing.JFrame {
-    
+
     private boolean doFullScreen = false;
     private DisplayMode selectedDisplayMode = null;
-    private DisplayMode [] possibleModes = null;
+    private DisplayMode[] possibleModes = null;
     private Frame parent;
 
     /**
@@ -27,16 +27,16 @@ public class ShowDisplayModes extends javax.swing.JFrame {
         this.parent = parent;
         initComponents();
         jToggleButton1.setSelected(doFullScreen);
-        
-        GraphicsEnvironment environment = 
-                GraphicsEnvironment.getLocalGraphicsEnvironment();
-        
+
+        GraphicsEnvironment environment
+                = GraphicsEnvironment.getLocalGraphicsEnvironment();
+
         possibleModes = environment.getDefaultScreenDevice().getDisplayModes();
-       
-        for (DisplayMode mode : possibleModes){
+
+        for (DisplayMode mode : possibleModes) {
             jComboBox1.addItem(
-                    mode.getWidth()+ " x; "+mode.getHeight()+" y; "
-                            +mode.getBitDepth() +" Bit; "+ mode.getRefreshRate()+" Hz");
+                    mode.getWidth() + " x; " + mode.getHeight() + " y; "
+                    + mode.getBitDepth() + " Bit; " + mode.getRefreshRate() + " Hz");
         }
     }
 
@@ -120,14 +120,14 @@ public class ShowDisplayModes extends javax.swing.JFrame {
     }//GEN-LAST:event_jToggleButton1ActionPerformed
 
     private void jComboBox1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jComboBox1ActionPerformed
-        
+
     }//GEN-LAST:event_jComboBox1ActionPerformed
 
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
-       selectedDisplayMode =  possibleModes[ jComboBox1.getSelectedIndex() ];
-       parent.setDisplayMode(selectedDisplayMode);
-       this.setVisible(false);
-       this.dispose();
+        selectedDisplayMode = possibleModes[jComboBox1.getSelectedIndex()];
+        parent.setDisplayMode(selectedDisplayMode);
+        this.setVisible(false);
+        this.dispose();
     }//GEN-LAST:event_jButton1ActionPerformed
 
     /**
