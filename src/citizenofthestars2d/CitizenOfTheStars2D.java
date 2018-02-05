@@ -28,34 +28,31 @@ public class CitizenOfTheStars2D {
     public static void main(String[] args) {
 
         List<Bullet> l_bullets = new LinkedList<Bullet>();
-
-        int resolution_x = 1024;
-        int resolution_y = 800;
-        int speed = 500;
+        LinkedList<Spieler> spielerListe = new LinkedList();
+        LinkedList<Enemy> enemyListe = new LinkedList();
 
         GraphicsEnvironment environment = GraphicsEnvironment.getLocalGraphicsEnvironment();
         GraphicsDevice device = environment.getDefaultScreenDevice();
         DisplayMode m = device.getDisplayMode();
+        Music music = new Music(null);
+
+        Spieler spieler1 = new Spieler(300, 300, 50, m.getWidth(), m.getHeight(), l_bullets, enemyListe);
+        Spieler spieler2 = new Spieler(400, 300, 50, m.getWidth(), m.getHeight(), l_bullets, enemyListe, KeyEvent.VK_UP, KeyEvent.VK_DOWN, KeyEvent.VK_LEFT, KeyEvent.VK_RIGHT, KeyEvent.VK_CONTROL);
+        Enemy e1 = new Enemy(400, 400, l_bullets);
+
+        int speed = 500;
+
+        BackgroundImage bgi = new BackgroundImage(speed);
 
         if (m == null) {
             m = new DisplayMode(1024, 800, 32, 60);
         }
 
-// Der Rahmen für die Fläche in der unser Spiel stattfindet
-        LinkedList<Spieler> spielerListe = new LinkedList();
-        LinkedList<Enemy> enemyListe = new LinkedList();
-
-        Spieler spieler1 = new Spieler(300, 300, 50, m.getWidth(), m.getHeight(), l_bullets, enemyListe);
         spielerListe.add(spieler1);
-
-        Spieler spieler2 = new Spieler(400, 300, 50, m.getWidth(), m.getHeight(), l_bullets, enemyListe, KeyEvent.VK_UP, KeyEvent.VK_DOWN, KeyEvent.VK_LEFT, KeyEvent.VK_RIGHT, KeyEvent.VK_CONTROL);
         spielerListe.add(spieler2);
 
-        Enemy e1 = new Enemy(400, 400, l_bullets);
         enemyListe.add(e1);
-        BackgroundImage bgi;
-        bgi = new BackgroundImage(speed);
-
+        // Der Rahmen für die Fläche in der unser Spiel stattfindet
         Frame f = new Frame(spielerListe, bgi, m, l_bullets, enemyListe);
 
         // ShowDisplayModes sdm = new ShowDisplayModes(f);       
@@ -63,30 +60,39 @@ public class CitizenOfTheStars2D {
         // Wir geben diesem Fenster einige Eigenschaften mit
         f.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE); //Programm beenden, wenn man das Fenster schließt
 
-        if (f.getDisplayMode() != null) {
-            f.setUndecorated(true);
-            f.setVisible(true);
+        if (!f.isUndecorated()) {
+            //  f.setUndecorated(true);  // Buggy?
         }
 
-        f.setSize(resolution_x, resolution_y);       // Auflösung
+        f.setAlwaysOnTop(true);
+
+        f.setSize(m.getWidth(), m.getHeight());       // Auflösung
 
         f.setVisible(true);         // Das Fenster wird für uns sichtbar dargestellt, statt nur im Speicher des PCs
         f.setResizable(false);      // Die größe des Fensters darf nicht verändert werden
         f.setLocationRelativeTo(null);
 
         if (m != null) {
-            System.out.println("Somethings there" + m);
-            System.out.println(m.getWidth());
             //Für den Vollbildmodus ssw
-            //    device.setFullScreenWindow(f);
-            //    device.setDisplayMode(m);
+            device.setFullScreenWindow(f);
+            //device.setDisplayMode(m);
         }
 
         // Eine variable vom Typ boolean, sie dient dazu den  "Game Loop" ab laufen zu halten
         boolean rungame = true;
         f.makeStrat(); // Buffer Strategie anlegen
-
         long timeLastFrame = System.currentTimeMillis();    // Zeit erfassen
+
+        // Music Thread
+        Thread musicThread = new Thread(
+                new Runnable() {
+                @Override
+                    public void run() {
+                        music.play();
+                    }
+                } );
+
+        musicThread.start(); // Starte Thread
 
         // Game Loop - eine Endlosschleife in der das Spiel läuft
         while (rungame) {
@@ -128,6 +134,7 @@ public class CitizenOfTheStars2D {
             }
 
         }
+
     }
 
 }
