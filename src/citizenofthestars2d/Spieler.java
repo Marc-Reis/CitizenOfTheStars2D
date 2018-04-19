@@ -159,6 +159,7 @@ public class Spieler {
     }
 
     public String getPlayerName() {
+        if (name == null) name="";
         return name;
     }
 
