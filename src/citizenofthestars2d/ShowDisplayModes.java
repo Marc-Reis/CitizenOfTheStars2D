@@ -128,7 +128,7 @@ public class ShowDisplayModes extends javax.swing.JFrame {
         parent.setDisplayMode(selectedDisplayMode);
         this.setVisible(false);
         this.dispose();
-        
+
     }//GEN-LAST:event_jButton1ActionPerformed
 
     /**

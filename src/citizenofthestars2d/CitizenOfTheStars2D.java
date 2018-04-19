@@ -86,11 +86,11 @@ public class CitizenOfTheStars2D {
         // Music Thread
         Thread musicThread = new Thread(
                 new Runnable() {
-                @Override
-                    public void run() {
-                        music.play();
-                    }
-                } );
+            @Override
+            public void run() {
+                music.play();
+            }
+        });
 
         musicThread.start(); // Starte Thread
 

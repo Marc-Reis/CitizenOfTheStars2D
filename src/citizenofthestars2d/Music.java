@@ -11,40 +11,43 @@ import java.util.ArrayList;
 import java.util.List;
 import javazoom.jl.player.Player;
 
-
-
 /**
- * Using http://www.javazoom.net/javalayer/sources.html to play Music (mp3, wav..)
+ * Using http://www.javazoom.net/javalayer/sources.html to play Music (mp3,
+ * wav..)
+ *
  * @author MarcR
  */
 public class Music {
-    
-    List<String> mp3s = new ArrayList<String>();    
-    Player musicPlayer;    
-    public Music(String[] mp3Paths){
-        
-        mp3s.add( new String("gfx/Privateer_-_Pleasure_Planet.mp3") );        
-        try{           
-             musicPlayer = new Player(getClass().getClassLoader().getResourceAsStream(mp3s.get(0)));
+
+    List<String> mp3s = new ArrayList<String>();
+    Player musicPlayer;
+
+    public Music(String[] mp3Paths) {
+
+        mp3s.add(new String("gfx/Privateer_-_Pleasure_Planet.mp3"));
+        try {
+            musicPlayer = new Player(getClass().getClassLoader().getResourceAsStream(mp3s.get(0)));
             //media = new Media(new File(mp3s.get(0)).toURI().toString());               
-        }catch(Exception e){
+        } catch (Exception e) {
             e.printStackTrace();
         }
-        
+
     }
-    
-    
-    public void play(){
-        try{
+
+    public void play() {
+        try {
             musicPlayer.play();
-        }catch(Exception e){e.printStackTrace();}
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
     }
-    
-    public void stop(){
-        try{
+
+    public void stop() {
+        try {
             musicPlayer.close();
-        }catch(Exception e){e.printStackTrace();}
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
     }
-    
-    
+
 }

@@ -19,6 +19,7 @@ import javax.swing.JOptionPane;
  * @author reisma
  */
 public class Spieler {
+
     static int counter;
 
     private List<Bullet> l_bullets;
@@ -41,7 +42,6 @@ public class Spieler {
 
     private int speed = 300;
     private Color color = Color.RED;
-
 
     private BufferedImage look;
     private BufferedImage lookdead;
@@ -159,7 +159,9 @@ public class Spieler {
     }
 
     public String getPlayerName() {
-        if (name == null) name="";
+        if (name == null) {
+            name = "";
+        }
         return name;
     }
 
