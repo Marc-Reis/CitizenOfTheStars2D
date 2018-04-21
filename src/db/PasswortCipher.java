@@ -9,7 +9,7 @@ package db;
  *
  * @author MarcR
  */
-public class PasswortHasher {
+public class PasswortCipher {
 
     public static void main(String args[]) {
 
@@ -18,19 +18,24 @@ public class PasswortHasher {
         String email = "Marc.Reis@gmail.com";
         String password = "SuperGeheim!";
 
-        PasswortHasher myHasher = new PasswortHasher();
+        PasswortCipher myCipher = new PasswortCipher();
 
-        String hashedPassword = myHasher.hashPassword(password);
+        String cipheredPassword = myCipher.cipherPassword(password);
 
         String candidatePassword1 = "DasBekommenDieNieRaus!";
         String candidatePassword2 = password;
 
-        System.out.println(" does " + candidatePassword1 + " fit?" + myHasher.checkPassword(candidatePassword1, hashedPassword));
-        System.out.println(" does " + candidatePassword2 + " fit?" + myHasher.checkPassword(candidatePassword2, hashedPassword));
+        System.out.println(" does " + candidatePassword1 + " fit?" + 
+                myCipher.checkPassword(candidatePassword1, cipheredPassword) +" >"+cipheredPassword) ;
+        System.out.println(" does " + candidatePassword2 + " fit?" + 
+                myCipher.checkPassword(candidatePassword2, cipheredPassword)+ " "+cipheredPassword);
+        
+        
+        myCipher.phpTest();
 
     }
 
-    public String hashPassword(String password) {
+    public String cipherPassword(String password) {
         String hashedString = BCrypt.hashpw(password, BCrypt.gensalt(10));
         return hashedString;
     }
@@ -38,13 +43,11 @@ public class PasswortHasher {
     public boolean checkPassword(String candidatePassword, String hashedPassword) {
         return BCrypt.checkpw(candidatePassword, hashedPassword);
     }
-
+    
     private void phpTest() {
-        String hash_php = "$2y$10$jcAZVcV2VVeQEmgUJI8rNe6ITRQnmaOFtyuHEMBLVRKyaqjp5swSO".replaceFirst("2y", "2a");
-        System.out.println("hash php " + hash_php);
-        //String a_hash = BCrypt.hashpw("123456", BCrypt.gensalt());
-        //System.out.println("Encrypt " + a_hash);
-        if (BCrypt.checkpw("SuperGeheim!", hash_php)) {
+        String cipher_php = "$2y$10$1X2Fq2Gq2YDgG7OAYrwE.OEEDED1kb30mvox/pcQniK4OwHIoAR3W".replaceFirst("2y", "2a");
+        System.out.println("hash php " + cipher_php);        
+        if (BCrypt.checkpw("SuperGeheim!", cipher_php)) {
             System.out.println("It matches");
         } else {
             System.out.println("It does not match");
