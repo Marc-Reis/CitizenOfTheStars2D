@@ -5,6 +5,7 @@
  */
 package citizenofthestars2d;
 
+import citizenofthestars2d.gui.ShowDisplayModes;
 import org.junit.After;
 import org.junit.AfterClass;
 import org.junit.Before;

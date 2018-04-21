@@ -3,8 +3,9 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package citizenofthestars2d;
+package citizenofthestars2d.gui;
 
+import citizenofthestars2d.Frame;
 import java.awt.DisplayMode;
 import java.awt.GraphicsEnvironment;
 import javax.swing.JFrame;
